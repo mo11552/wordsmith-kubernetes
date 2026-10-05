@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: wordsmith
+  labels:
+    app.kubernetes.io/name: wordsmith
+    environment: development

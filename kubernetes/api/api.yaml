@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: api
+  namespace: wordsmith
+spec:
+  selector:
+    app: wordsmith-api
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordsmith-api
+  namespace: wordsmith
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: wordsmith-api
+  template:
+    metadata:
+      labels:
+        app: wordsmith-api
+    spec:
+      containers:
+        - name: api
+          image: dockersamples/wordsmith-api:latest
+          ports:
+            - name: http
+              containerPort: 8080
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          livenessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
