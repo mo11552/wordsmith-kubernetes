@@ -112,3 +112,32 @@ During deployment, the frontend loaded but did not display words. Troubleshootin
 ```bash
 kind delete cluster --name wordsmith-dev
 ```
+
+## Helm Deployment Lab
+
+Created separate Helm charts for the Wordsmith web and API services:
+
+- `helm/wordsmith-web`
+- `helm/wordsmith-api`
+
+### Skills Practiced
+
+- Created and configured Helm charts
+- Validated charts with `helm lint`
+- Installed releases with `helm upgrade --install`
+- Deployed the application in the `wordsmith` namespace
+- Connected the web, API, and PostgreSQL services
+- Scaled the web deployment from one to two replicas
+- Reviewed Helm revision history
+- Rolled the web release back to revision 1
+- Verified the complete application through port forwarding
+
+### Validation Commands
+
+```bash
+helm lint helm/wordsmith-web
+helm lint helm/wordsmith-api
+helm list -n wordsmith
+kubectl get pods,services -n wordsmith
+helm history web -n wordsmith
+kubectl port-forward service/web 8081:80 -n wordsmith
